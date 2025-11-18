@@ -1,13 +1,23 @@
+const getFlagValue = (args, flags) => {
+  for (let i = 0; i < args.length; i += 1) {
+    if (flags.includes(args[i]) && i + 1 < args.length) {
+      return args[i + 1];
+    }
+  }
+  return undefined;
+};
+
 export default {
   command: "ai-content caption-linkedin",
-  description: "Produce a LinkedIn-ready caption with professional tone",
+  description: "Generate a professional LinkedIn caption with a CTA",
   async action(args) {
-    console.log("[AI] Running caption-linkedin with args:", args);
-    const topic = args.join(" ").trim() || "current milestone";
-    const caption = `Sharing insights from ${topic}: celebrate progress, call out collaborators, and ask the community for ideas.`;
-    const cta = "Let me know what you're learning too.";
-    console.log('[AI] Caption:', caption);
-    console.log('[AI] CTA:', cta);
-    console.log('[AI] IDE hint: Use LinkedIn formatting such as line breaks to improve readability.');
-  }
+    console.log("[AI-CONTENT] Running caption-linkedin", args);
+    const topic = getFlagValue(args, ["--topic", "-t"]) || "strategic storytelling";
+
+    const caption = `Today I reflected on ${topic}, captured why it matters to teams, and surfaced a practical action that others can repeat.`;
+    const cta = "Please share your experiences or questions below so we can grow this idea together.";
+
+    console.log("Caption:", caption);
+    console.log("CTA:", cta);
+  },
 };

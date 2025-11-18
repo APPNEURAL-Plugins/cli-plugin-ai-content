@@ -1,16 +1,48 @@
-export default {
-  command: "ai-content faq-generator",
-  description: "Create a short FAQ based on a topic",
-  async action(args) {
-    console.log("[AI] Running faq-generator with args:", args);
-    const topic = args.join(" ").trim() || "our service";
-    const faqs = [
-      { q: `What is ${topic}?`, a: `${topic} helps teams move faster by providing guidance.` },
-      { q: `How do I get started with ${topic}?`, a: "Sign up, follow the onboarding checklist, and watch the primer videos." },
-      { q: `Who can benefit from ${topic}?`, a: "Product builders, marketers, and supporting teams who want clearer direction." }
-    ];
-    console.log('[AI] FAQ entries:');
-    faqs.forEach((item) => console.log(`Q: ${item.q}\nA: ${item.a}`));
-    console.log('[AI] IDE hint: Publish these FAQs under a collapsible section.');
+const getFlagValue = (args, flags) => {
+  for (let i = 0; i < args.length; i += 1) {
+    if (flags.includes(args[i]) && i + 1 < args.length) {
+      return args[i + 1];
+    }
   }
+  return undefined;
+};
+
+export default {
+  command: "ai-content faq",
+  description: "Generate 5-10 FAQs with answers based on a topic",
+  async action(args) {
+    console.log("[AI-CONTENT] Running faq", args);
+    const topic = getFlagValue(args, ["--topic", "-t"]) || "the product";
+    const faqs = [
+      {
+        q: `What is ${topic}?`,
+        a: `${topic} is a focused approach that helps people understand the why and how behind the idea.`
+      },
+      {
+        q: `Who benefits from ${topic}?`,
+        a: "Teams, leaders, and anyone who wants clarity before they act."
+      },
+      {
+        q: `How do I start with ${topic}?`,
+        a: "Begin with a quick experiment, gather feedback, and iterate once you learn something unexpected."
+      },
+      {
+        q: `What problem does ${topic} solve?`,
+        a: "It reduces hesitation and keeps collaborators aligned on shared outcomes."
+      },
+      {
+        q: `How often should I revisit ${topic}?`,
+        a: "Review it whenever new data arrives or each sprint so it stays relevant."
+      },
+      {
+        q: `Where can I learn more about ${topic}?`,
+        a: "Look for case studies, short videos, and internal notes that document your wins."
+      }
+    ];
+
+    faqs.forEach((entry) => {
+      console.log(`Q: ${entry.q}`);
+      console.log(`A: ${entry.a}`);
+    });
+  },
 };

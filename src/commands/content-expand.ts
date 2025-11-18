@@ -1,15 +1,39 @@
+const getFlagValue = (args, flags) => {
+  for (let i = 0; i < args.length; i += 1) {
+    if (flags.includes(args[i]) && i + 1 < args.length) {
+      return args[i + 1];
+    }
+  }
+  return undefined;
+};
+
+const expandSentence = (segment, index) => {
+  const transitions = ["Furthermore", "For example", "That means", "Ultimately"];
+  const transition = transitions[index % transitions.length];
+  return `${transition}, ${segment} evolves with more detail, showing how it plays out in everyday work.`;
+};
+
+const addExamples = (segment) => `One concrete illustration: ${segment.toLowerCase()} could involve teammates writing a quick prototype and sharing it for feedback.`;
+
 export default {
-  command: "ai-content content-expand",
-  description: "Expand short input into longer narrative",
+  command: "ai-content expand",
+  description: "Elaborate on a topic with added detail, examples, and transitions",
   async action(args) {
-    console.log("[AI] Running content-expand with args:", args);
-    const shortText = args.join(" ").trim();
-    if (!shortText) {
-      console.log("[AI] Send an idea to expand.");
+    console.log("[AI-CONTENT] Running expand", args);
+    const text = getFlagValue(args, ["--text", "-t"]) || "";
+
+    if (!text.trim()) {
+      console.log("[AI-CONTENT] Provide text via --text to expand.");
       return;
     }
-    const expanded = `${shortText}. This idea connects with experience, adds examples, and invites reflection. Consider ${shortText.toLowerCase()} as a launching point for deeper exploration.`;
-    console.log('[AI] Expanded text:', expanded);
-    console.log('[AI] IDE hint: Break this into separate paragraphs when copying to your editor.');
-  }
+
+    const segments = text.split(/[.!?]+/).map((segment) => segment.trim()).filter(Boolean);
+    const normalized = segments.length ? segments : ["Key idea emerges from simple experiments"];
+    const elaborated = normalized
+      .map((segment, index) => `${expandSentence(segment, index)} ${addExamples(segment)}`)
+      .join("\n\n");
+
+    console.log("Expanded text:");
+    console.log(elaborated);
+  },
 };

@@ -1,22 +1,63 @@
+const getFlagValue = (args, flags) => {
+  for (let i = 0; i < args.length; i += 1) {
+    if (flags.includes(args[i]) && i + 1 < args.length) {
+      return args[i + 1];
+    }
+  }
+  return undefined;
+};
+
+const synonyms = {
+  quick: "swift",
+  helpful: "supportive",
+  build: "assemble",
+  guide: "navigate",
+  big: "substantial",
+  idea: "concept",
+  clearly: "transparently",
+};
+
+const paraphraseSentence = (sentence, index) => {
+  const trimmed = sentence.trim();
+  if (!trimmed) {
+    return "";
+  }
+  const punctuationMatch = trimmed.match(/[.!?]$/);
+  const punctuation = punctuationMatch ? punctuationMatch[0] : ".";
+  const core = punctuationMatch ? trimmed.slice(0, -1) : trimmed;
+  const words = core.split(/\s+/).filter(Boolean);
+  const transformed = words
+    .map((word, i) => {
+      const lower = word.toLowerCase().replace(/[^a-z]/gi, "");
+      return synonyms[lower] ? synonyms[lower] : word;
+    })
+    .reverse();
+  const connector = index % 2 === 0 ? "In other words" : "Put simply";
+  return `${connector}, ${transformed.join(" ")} ${punctuation}`;
+};
+
 export default {
-  command: "ai-content content-paraphrase",
-  description: "Paraphrase content using alternative wording",
+  command: "ai-content paraphrase",
+  description: "Paraphrase content at the sentence level",
   async action(args) {
-    console.log("[AI] Running content-paraphrase with args:", args);
-    const input = args.join(" ").trim();
-    if (!input) {
-      console.log("[AI] Need a sentence or paragraph to paraphrase.");
+    console.log("[AI-CONTENT] Running paraphrase", args);
+    const text = getFlagValue(args, ["--text", "-t"]) || "";
+
+    if (!text.trim()) {
+      console.log("[AI-CONTENT] Provide text via --text to paraphrase.");
       return;
     }
-    const synonyms = {
-      "help": "assist",
-      "build": "construct",
-      "important": "vital",
-      "need": "require",
-      "guide": "manual"
-    };
-    const paraphrased = input.split(" ").map((word) => synonyms[word.toLowerCase()] || word).join(" ");
-    console.log('[AI] Paraphrased text:', paraphrased);
-    console.log('[AI] IDE hint: Use native thesaurus after reviewing output.');
-  }
+
+    const sentences = text
+      .split(/(?<=[.!?])\s+/)
+      .map((sentence) => sentence.trim())
+      .filter(Boolean);
+
+    const paraphrased = sentences
+      .map((sentence, index) => paraphraseSentence(sentence, index))
+      .join(" ");
+
+    console.log("Paraphrased text:");
+    console.log(paraphrased);
+  },
 };

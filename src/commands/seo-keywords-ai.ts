@@ -1,19 +1,37 @@
+const getFlagValue = (args, flags) => {
+  for (let i = 0; i < args.length; i += 1) {
+    if (flags.includes(args[i]) && i + 1 < args.length) {
+      return args[i + 1];
+    }
+  }
+  return undefined;
+};
+
+const sanitize = (value) => value.toLowerCase().replace(/[^a-z0-9\s]+/g, "").trim();
+
 export default {
   command: "ai-content seo-keywords",
-  description: "Extract SEO keywords from a brief description",
+  description: "Suggest SEO keywords, LSI terms, and content structure hints",
   async action(args) {
-    console.log("[AI] Running seo-keywords-ai with args:", args);
-    const text = args.join(" ").trim();
-    if (!text) {
-      console.log("[AI] Provide a sentence or paragraph to analyze.");
-      return;
-    }
-    const words = text
-      .toLowerCase()
-      .split(/[^a-z0-9]+/)
-      .filter((word, index) => text.length > 2 && word && index < 8);
-    const keywords = Array.from(new Set(words)).slice(0, 5);
-    console.log('[AI] Keywords:', keywords);
-    console.log('[AI] IDE hint: Use these keywords in titles, meta descriptions, and headers.');
-  }
+    console.log("[AI-CONTENT] Running seo-keywords", args);
+    const topic = getFlagValue(args, ["--topic", "-t"]) || "streamlined onboarding";
+    const clean = sanitize(topic);
+    const tokens = clean.split(/\s+/).filter(Boolean);
+
+    const keywords = tokens.slice(0, 3);
+    const lsi = tokens.map((token) => `${token} tips`).slice(0, 3);
+    const longTail = [`${clean} strategy`, `${clean} checklist`, `${clean} for teams`];
+    const structureHints = [
+      "Intro: Why the topic matters now",
+      "Proof: Anecdotes or data that validate the need",
+      "Steps: Clear tactics broken into subsections",
+      "Wrap: CTA + next step"
+    ];
+
+    console.log("Keywords:", keywords);
+    console.log("LSI keywords:", lsi);
+    console.log("Long-tail keywords:", longTail);
+    console.log("Structure hints:");
+    structureHints.forEach((hint) => console.log(`  • ${hint}`));
+  },
 };
