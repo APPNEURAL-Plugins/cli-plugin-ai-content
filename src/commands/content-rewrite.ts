@@ -1,4 +1,4 @@
-const getFlagValue = (args, flags) => {
+const getFlagValue = (args: any[], flags: any[]): any => {
   for (let i = 0; i < args.length; i += 1) {
     if (flags.includes(args[i]) && i + 1 < args.length) {
       return args[i + 1];
@@ -20,19 +20,19 @@ const synonyms = {
 
 const connectors = ["In practice", "To make this concrete", "At its core", "The signal here is"];
 
-const replaceWords = (sentence) =>
+const replaceWords = (sentence: any): string =>
   sentence
     .split(/(\s+)/)
-    .map((token) => {
+    .map((token: any) => {
       const lower = token.toLowerCase();
-      if (synonyms[lower]) {
-        return synonyms[lower];
+      if (synonyms[lower as keyof typeof synonyms]) {
+        return synonyms[lower as keyof typeof synonyms];
       }
       return token;
     })
     .join("");
 
-const reorderSentence = (sentence, index) => {
+const reorderSentence = (sentence: any, index: number): string => {
   const trimmed = sentence.trim();
   if (!trimmed) {
     return connectors[index % connectors.length];
@@ -52,7 +52,7 @@ const reorderSentence = (sentence, index) => {
 export default {
   command: "ai-content rewrite",
   description: "Rewrite text with refreshed vocabulary and structure",
-  async action(args) {
+  async action(args: any): Promise<void> {
     console.log("[AI-CONTENT] Running rewrite", args);
     const text = getFlagValue(args, ["--text", "-t"]) || "";
     const style = getFlagValue(args, ["--style", "-s"]);
@@ -64,11 +64,11 @@ export default {
 
     const sentences = text
       .split(/(?<=[.!?])\s+/)
-      .map((sentence) => sentence.trim())
+      .map((sentence: string) => sentence.trim())
       .filter(Boolean);
 
     const rewritten = sentences
-      .map((sentence, index) => {
+      .map((sentence: string, index: number) => {
         const reordered = reorderSentence(replaceWords(sentence), index);
         return reordered;
       })

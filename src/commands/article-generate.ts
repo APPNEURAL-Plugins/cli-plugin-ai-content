@@ -1,4 +1,4 @@
-const getFlagValue = (args, flags) => {
+const getFlagValue = (args: any[], flags: any[]): any => {
   for (let i = 0; i < args.length; i += 1) {
     if (flags.includes(args[i]) && i + 1 < args.length) {
       return args[i + 1];
@@ -7,18 +7,18 @@ const getFlagValue = (args, flags) => {
   return undefined;
 };
 
-const buildSubheadings = (headline) => [
+const buildSubheadings = (headline: any): string[] => [
   `Why ${headline} matters today`,
   `Steps leaders take to own ${headline}`,
   `Metrics proving ${headline} moves the needle`
 ];
 
-const wrapConclusion = (headline) => `Keeping ${headline} in focus sparks experiments and sharper decisions.`;
+const wrapConclusion = (headline: any): string => `Keeping ${headline} in focus sparks experiments and sharper decisions.`;
 
 export default {
   command: "ai-content article",
   description: "Produce a short article with headline, summary, subheadings, and closing",
-  async action(args) {
+  async action(args: any): Promise<void> {
     console.log("[AI-CONTENT] Running article", args);
     const headline = getFlagValue(args, ["--headline", "-h"]) || "Emerging trends in productivity";
 

@@ -1,4 +1,4 @@
-const getFlagValue = (args, flags) => {
+const getFlagValue = (args: any[], flags: any[]): any => {
   for (let i = 0; i < args.length; i += 1) {
     if (flags.includes(args[i]) && i + 1 < args.length) {
       return args[i + 1];
@@ -10,7 +10,7 @@ const getFlagValue = (args, flags) => {
 export default {
   command: "ai-content faq",
   description: "Generate 5-10 FAQs with answers based on a topic",
-  async action(args) {
+  async action(args: any): Promise<void> {
     console.log("[AI-CONTENT] Running faq", args);
     const topic = getFlagValue(args, ["--topic", "-t"]) || "the product";
     const faqs = [

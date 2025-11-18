@@ -1,4 +1,4 @@
-const getFlagValue = (args, flags) => {
+const getFlagValue = (args: any[], flags: any[]): any => {
   for (let i = 0; i < args.length; i += 1) {
     if (flags.includes(args[i]) && i + 1 < args.length) {
       return args[i + 1];
@@ -7,12 +7,12 @@ const getFlagValue = (args, flags) => {
   return undefined;
 };
 
-const ensureChars = (text) => text.length <= 280 ? text : `${text.slice(0, 270)}…`;
+const ensureChars = (text: any): string => text.length <= 280 ? text : `${text.slice(0, 270)}…`;
 
 export default {
   command: "ai-content tweet",
   description: "Create three tweet variations under 280 characters",
-  async action(args) {
+  async action(args: any): Promise<void> {
     console.log("[AI-CONTENT] Running tweet", args);
     const idea = getFlagValue(args, ["--idea", "-i"]) || "sharpen focus";
 

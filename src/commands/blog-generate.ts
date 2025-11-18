@@ -1,4 +1,4 @@
-const getFlagValue = (args, flags) => {
+const getFlagValue = (args: any[], flags: any[]): any => {
   for (let i = 0; i < args.length; i += 1) {
     if (flags.includes(args[i]) && i + 1 < args.length) {
       return args[i + 1];
@@ -13,26 +13,26 @@ const toneMap = {
   casual: "relaxed and authentic",
 };
 
-const formatIntro = (topic, tone) => [
+const formatIntro = (topic: any, tone: any): string[] => [
   `Intro: ${topic} stands out because it helps people solve immediate challenges with clarity.`,
-  `Tone: ${toneMap[tone] || toneMap.friendly} keeps the reader engaged from the first sentence.`,
+  `Tone: ${toneMap[tone as keyof typeof toneMap] || toneMap.friendly} keeps the reader engaged from the first sentence.`,
   `We will explore practical steps that make ${topic} actionable rather than abstract.`,
   "Expect tangible examples and a confident wrap-up."
 ];
 
-const buildBody = (topic) => [
+const buildBody = (topic: any): string[] => [
   `1. Define why ${topic} matters today and what is shifting around it.`,
   `2. Share a concise story or data point that proves the opportunity is real.`,
   `3. Detail step-by-step actions people can take once they finish reading.`,
   `4. Highlight common traps or misconceptions to avoid.`
 ];
 
-const conclude = (topic) => `Keep ${topic} top of mind, iterate quickly, and share your wins with the community.`;
+const conclude = (topic: any): string => `Keep ${topic} top of mind, iterate quickly, and share your wins with the community.`;
 
 export default {
   command: "ai-content blog",
   description: "Generate a structured three-section blog post",
-  async action(args) {
+  async action(args: any): Promise<void> {
     console.log("[AI-CONTENT] Running blog", args);
     const topic = getFlagValue(args, ["--topic", "-t"]) || "new ideas";
     const toneRaw = getFlagValue(args, ["--tone", "-o"]) || "friendly";

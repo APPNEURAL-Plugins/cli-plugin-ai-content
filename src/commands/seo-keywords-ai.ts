@@ -1,4 +1,4 @@
-const getFlagValue = (args, flags) => {
+const getFlagValue = (args: any[], flags: any[]): any => {
   for (let i = 0; i < args.length; i += 1) {
     if (flags.includes(args[i]) && i + 1 < args.length) {
       return args[i + 1];
@@ -7,12 +7,12 @@ const getFlagValue = (args, flags) => {
   return undefined;
 };
 
-const sanitize = (value) => value.toLowerCase().replace(/[^a-z0-9\s]+/g, "").trim();
+const sanitize = (value: any): string => value.toLowerCase().replace(/[^a-z0-9\s]+/g, "").trim();
 
 export default {
   command: "ai-content seo-keywords",
   description: "Suggest SEO keywords, LSI terms, and content structure hints",
-  async action(args) {
+  async action(args: any): Promise<void> {
     console.log("[AI-CONTENT] Running seo-keywords", args);
     const topic = getFlagValue(args, ["--topic", "-t"]) || "streamlined onboarding";
     const clean = sanitize(topic);

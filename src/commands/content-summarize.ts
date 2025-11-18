@@ -1,4 +1,4 @@
-const getFlagValue = (args, flags) => {
+const getFlagValue = (args: any[], flags: any[]): any => {
   for (let i = 0; i < args.length; i += 1) {
     if (flags.includes(args[i]) && i + 1 < args.length) {
       return args[i + 1];
@@ -7,7 +7,7 @@ const getFlagValue = (args, flags) => {
   return undefined;
 };
 
-const buildSummaryLines = (sentences, count) => {
+const buildSummaryLines = (sentences: any[], count: number): string[] => {
   const lines = [];
   const fallback = "Key idea: highlight the main point with clarity.";
   for (let i = 0; i < count; i += 1) {
@@ -21,7 +21,7 @@ const buildSummaryLines = (sentences, count) => {
 export default {
   command: "ai-content summarize",
   description: "Produce short, medium, and long summaries",
-  async action(args) {
+  async action(args: any): Promise<void> {
     console.log("[AI-CONTENT] Running summarize", args);
     const text = getFlagValue(args, ["--text", "-t"]) || "";
 
@@ -32,7 +32,7 @@ export default {
 
     const sentences = text
       .split(/(?<=[.!?])\s+/)
-      .map((sentence) => sentence.trim().replace(/^\d+\./, ""))
+      .map((sentence: string) => sentence.trim().replace(/^\d+\./, ""))
       .filter(Boolean);
 
     console.log("Short summary (2 lines):");

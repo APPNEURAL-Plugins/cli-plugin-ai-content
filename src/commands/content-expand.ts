@@ -1,4 +1,4 @@
-const getFlagValue = (args, flags) => {
+const getFlagValue = (args: any[], flags: any[]): any => {
   for (let i = 0; i < args.length; i += 1) {
     if (flags.includes(args[i]) && i + 1 < args.length) {
       return args[i + 1];
@@ -7,18 +7,18 @@ const getFlagValue = (args, flags) => {
   return undefined;
 };
 
-const expandSentence = (segment, index) => {
+const expandSentence = (segment: any, index: number): string => {
   const transitions = ["Furthermore", "For example", "That means", "Ultimately"];
   const transition = transitions[index % transitions.length];
   return `${transition}, ${segment} evolves with more detail, showing how it plays out in everyday work.`;
 };
 
-const addExamples = (segment) => `One concrete illustration: ${segment.toLowerCase()} could involve teammates writing a quick prototype and sharing it for feedback.`;
+const addExamples = (segment: any): string => `One concrete illustration: ${segment.toLowerCase()} could involve teammates writing a quick prototype and sharing it for feedback.`;
 
 export default {
   command: "ai-content expand",
   description: "Elaborate on a topic with added detail, examples, and transitions",
-  async action(args) {
+  async action(args: any): Promise<void> {
     console.log("[AI-CONTENT] Running expand", args);
     const text = getFlagValue(args, ["--text", "-t"]) || "";
 
@@ -27,10 +27,10 @@ export default {
       return;
     }
 
-    const segments = text.split(/[.!?]+/).map((segment) => segment.trim()).filter(Boolean);
+    const segments = text.split(/[.!?]+/).map((segment: string) => segment.trim()).filter(Boolean);
     const normalized = segments.length ? segments : ["Key idea emerges from simple experiments"];
     const elaborated = normalized
-      .map((segment, index) => `${expandSentence(segment, index)} ${addExamples(segment)}`)
+      .map((segment: string, index: number) => `${expandSentence(segment, index)} ${addExamples(segment)}`)
       .join("\n\n");
 
     console.log("Expanded text:");
