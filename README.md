@@ -1,2 +1,3 @@
-# appneural-plugin-ai-content
-@appneural/plugin-ai-content AI-powered content generation toolkit (blogs, SEO, marketing, scripts, captions).
+# @appneural/plugin-ai-content
+
+Part of the APPNEURAL plugin ecosystem. Provides Content generation flows powered by AI. for @appneural/cli.

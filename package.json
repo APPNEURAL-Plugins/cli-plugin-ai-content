@@ -1,0 +1,29 @@
+{
+  "name": "@appneural/plugin-ai-content",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -w -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "@appneural/cli": "*"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "chalk": "^5.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Content generation flows powered by AI.",
+  "keywords": [
+    "appneural",
+    "plugin",
+    "ai"
+  ],
+  "author": "APPNEURAL",
+  "license": "MIT"
+}
