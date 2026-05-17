@@ -14,7 +14,7 @@ This plugin delivers AI-powered content generation tools for the Appneural platf
 ## Installation
 
 ```bash
-npm install @appneural/plugin-ai-content
+npm install @appneural/cli-plugin-ai-content
 ```
 
 ## Available Commands (using anx tools)
