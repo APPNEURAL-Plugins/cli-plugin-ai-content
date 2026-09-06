@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This plugin delivers AI-powered content generation tools for the Appneural platform. It helps users create, rewrite, paraphrase, and optimize content for blogs, articles, social media, and more.
+This plugin delivers AI-powered content generation tools for the APPNEURAL platform. It helps users create, rewrite, paraphrase, and optimize content for blogs, articles, social media, and more.
 
 ## Benefits
 
